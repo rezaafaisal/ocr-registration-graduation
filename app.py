@@ -70,14 +70,14 @@ def get_yudis_info(yudis_lists, name):
   data['graduate_date'] = f"{only_digit[4:]}-{only_digit[2:4]}-{only_digit[:2]}"
 
   # faculty
-  faculties = ['Sains Dan Teknologi',
-           'Dakwah Dan Komunikasi',
-           'Syariah Dan Hukum',
-           'Tarbiyah Dan Keguruan',
-           'Ushuluddin Dan Filsafat',
+  faculties = ['Sains dan Teknologi',
+           'Dakwah dan Komunikasi',
+           'Syariah dan Hukum',
+           'Tarbiyah dan Keguruan',
+           'Ushuluddin dan Filsafat',
            'Adab dan Humaiora',
            'Kedokteran dan Ilmu Kesehatan',
-           'Ekonomi Dan Bisnis']
+           'Ekonomi dan Bisnis']
 
   temp_faculty = [x for x in yudis_lists if 'fakultas' in x.lower()][0]
   temp_fac_list = [x.lower() for x in temp_faculty.split(' ') if x.isalpha()]
