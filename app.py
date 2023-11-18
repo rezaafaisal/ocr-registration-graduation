@@ -50,61 +50,76 @@ def get_ktp_info(ktp_lists):
     return data
 
 def get_yudis_info(yudis_lists, name):
-    data = {}
-    name = name.lower()
+  data = {}
+  name = name.lower()
 
-    # get nim
-    nim = [yudis_lists.index(x) for x in yudis_lists if any(n in x.lower() for n in name.split(' '))]
+  # get nim
+  nim = [yudis_lists.index(x) for x in yudis_lists if any(n in x.lower() for n in name.split(' '))]
 
-    if len(nim) == 1:
-        nim = yudis_lists[nim[0]+2]
-    else :
-        nim = yudis_lists[nim[0]:nim[1]]
-        nim = [x for x in nim if x.isdigit()][0]
+  if len(nim) == 1:
+    nim = yudis_lists[nim[0]+2]
+  else :
+    nim = yudis_texts[nim[0]:nim[1]]
+    nim = [x for x in nim if x.isdigit()][0]
 
-    data['nim'] = nim
+  data['nim'] = nim
 
-    # grad date
-    temp_date = [x for x in [x for x in yudis_lists if any(c.isdigit() for c in x)] if '/' in x ][0]
-    only_digit = ''.join([x for x in temp_date if x.isdigit()])
-    data['graduate_date'] = f"{only_digit[4:]}-{only_digit[2:4]}-{only_digit[:2]}"
+  # grad date
+  temp_date = [x for x in [x for x in yudis_lists if any(c.isdigit() for c in x)] if '/' in x ][0]
+  only_digit = ''.join([x for x in temp_date if x.isdigit()])
+  data['graduate_date'] = f"{only_digit[4:]}-{only_digit[2:4]}-{only_digit[:2]}"
 
-    # faculty
-    faculties = ['Sains dan Teknologi',
-            'Dakwah dan Komunikasi',
-            'Syariah dan Hukum',
-            'Tarbiyah dan Keguruan',
-            'Ushuluddin dan Filsafat',
-            'Adab dan Humaiora',
-            'Kedokteran dan Ilmu Kesehatan',
-            'Ekonomi dan Bisnis Islam']
+  # faculty
+  faculties = ['Sains Dan Teknologi',
+           'Dakwah Dan Komunikasi',
+           'Syariah Dan Hukum',
+           'Tarbiyah Dan Keguruan',
+           'Ushuluddin Dan Filsafat',
+           'Adab dan Humaiora',
+           'Kedokteran dan Ilmu Kesehatan',
+           'Ekonomi Dan Bisnis']
 
-    temp_faculty = [x for x in yudis_lists if 'fakultas' in x.lower()][0]
+  temp_faculty = [x for x in yudis_lists if 'fakultas' in x.lower()][0]
+  temp_fac_list = [x.lower() for x in temp_faculty.split(' ') if x.isalpha()]
+
+  if len(temp_fac_list) <= 1:
+    temp_faculty = [x for x in yudis_lists if 'fakultas' in x.lower()][1]
     temp_fac_list = [x.lower() for x in temp_faculty.split(' ') if x.isalpha()]
-    faculty = ''
-    for fac in faculties:
-        for t in temp_fac_list:
-            if t.lower() in fac.lower():
-                faculty = fac
-    data['faculty'] = faculty
 
-    # major
-    temp_major = [x for x in yudis_lists if 'jurusan' in x.lower()][0].lower()
-    temp_major = [x for x in temp_major.split('jurusan')[1].split(' ') if x != '']
-    major = ' '.join(temp_major).title()
-    data['major'] = major
+  faculty = ''
+  break_out_flag = False
+  for fac in faculties:
+    for t in temp_fac_list:
+      if t.lower() in fac.lower():
+        faculty = fac
+        break_out_flag = True
+        break
+    if break_out_flag:
+      break
 
-    # ipk
-    ipk = [yudis_lists.index(x) for x in yudis_lists if any(n in x.lower() for n in name.split(' '))]
+  if faculty == 'Ekonomi Dan Bisnis':
+    faculty = 'Ekonomi Dan Bisnis Islam'
 
-    if len(ipk) == 1:
-        ipk = yudis_lists[ipk[0]+5]
-    else :
-        ipk = yudis_lists[ipk[0]:ipk[1]]
-        ipk = [x for x in ipk if ',' in x][-1]
-    data['ipk'] = ipk.replace(",", ".")
+  data['faculty'] = faculty
 
-    return data
+  # major
+  temp_major = [x for x in yudis_lists if 'jurusan' in x.lower()][0].lower()
+  temp_major = [x for x in temp_major.split('jurusan')[1].split(' ') if x != '']
+  major = ' '.join(temp_major).title()
+  data['major'] = major
+
+  # ipk
+  ipk = [yudis_lists.index(x) for x in yudis_lists if any(n in x.lower() for n in name.split(' '))]
+
+  if len(ipk) == 1:
+    ipk = yudis_lists[ipk[0]:ipk[0]+10]
+    ipk = [x for x in ipk if ',' in x][-1]
+  else :
+    ipk = yudis_lists[ipk[0]:ipk[1]]
+    ipk = [x for x in ipk if ',' in x][-1]
+  data['ipk'] = ipk
+
+  return data
 
 @app.route("/", methods=['GET'])
 def hello_world():
