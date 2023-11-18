@@ -117,7 +117,7 @@ def get_yudis_info(yudis_lists, name):
   else :
     ipk = yudis_lists[ipk[0]:ipk[1]]
     ipk = [x for x in ipk if ',' in x][-1]
-  data['ipk'] = ipk
+  data['ipk'] = data['ipk'] = float(ipk.replace(',', '.'))
 
   return data
 
