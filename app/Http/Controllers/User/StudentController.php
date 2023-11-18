@@ -31,7 +31,6 @@ class StudentController extends Controller
     {
         $data = $this->get_registrar() ?? new Registrar();
 
-        dd(Faculty::all());
         return view('student.data', ['data' => $data, 'faculties' => Faculty::all()]);
     }
 
