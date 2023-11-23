@@ -56,6 +56,28 @@
                             <span class="ml-3">Dashboard</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('student.file.show') }}" @class([
+                            'flex items-center p-2 text-base font-normal rounded-lg',
+                            'dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' =>
+                                request()->url() != route('student.file.show'),
+                            'text-white bg-green-500 hover:text-black hover:bg-gray-100 dark:hover:text-white dark:hover:bg-gray-700' =>
+                                request()->url() == route('student.file.show'),
+                        ])>
+                            <svg @class([
+                                'w-6 h-6 transition duration-75',
+                                'text-gray-700 dark:text-white' =>
+                                    request()->url() != route('student.file.show'),
+                                '' => request()->url() == route('student.file.show'),
+                            ]) fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span class="ml-3">File</span>
+                        </a>
+                    </li>
                     {{-- @if (!$user->registrar || !$user->registrar->is_validated) --}}
                     <li>
                         <a href="{{ route('student.data.show') }}" @class([
@@ -80,28 +102,7 @@
                             <span class="ml-3">Biodata</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('student.file.show') }}" @class([
-                            'flex items-center p-2 text-base font-normal rounded-lg',
-                            'dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' =>
-                                request()->url() != route('student.file.show'),
-                            'text-white bg-green-500 hover:text-black hover:bg-gray-100 dark:hover:text-white dark:hover:bg-gray-700' =>
-                                request()->url() == route('student.file.show'),
-                        ])>
-                            <svg @class([
-                                'w-6 h-6 transition duration-75',
-                                'text-gray-700 dark:text-white' =>
-                                    request()->url() != route('student.file.show'),
-                                '' => request()->url() == route('student.file.show'),
-                            ]) fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
-                                </path>
-                            </svg>
-                            <span class="ml-3">File</span>
-                        </a>
-                    </li>
+                    
                     {{-- @endif --}}
                     {{-- <li>
                         <a href="{{ route('student.data.show') }}" @class([
