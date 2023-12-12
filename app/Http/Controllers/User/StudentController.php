@@ -84,7 +84,7 @@ class StudentController extends Controller
             $extracted = [];
 
             if($request->has('ktp')){
-                $response = Http::get($this->reader_endpoint, [
+                $response = Http::timeout(60)->connectTimeout(60)->get($this->reader_endpoint, [
                     'path' => $biodata->ktp,
                     'type' => 'ktp'
                 ]);
@@ -102,7 +102,7 @@ class StudentController extends Controller
             }
 
             if($request->has('munaqasyah') && ($biodata->name != null || $extracted['name'])){
-                $response = Http::get($this->reader_endpoint, [
+                $response = Http::timeout(60)->connectTimeout(60)->get($this->reader_endpoint, [
                     'path' => $biodata->munaqasyah,
                     'type' => 'yudis',
                     'name' => $biodata->name ?? $extracted['name']
