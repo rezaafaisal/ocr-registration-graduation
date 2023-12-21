@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve Winda Flask App
+After=network.target
+
+[Service]
+User=winda
+Group=www-data
+WorkingDirectory=/home/winda/project/ocr-registration-graduation
+Environment="PATH=/home/winda/miniconda3/envs/winda/bin/python"
+ExecStart=/home/winda/miniconda3/envs/winda/bin/gunicorn --workers=1 --timeout=120 --bind=unix:winda.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target

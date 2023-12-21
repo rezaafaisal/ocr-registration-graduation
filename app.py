@@ -169,3 +169,6 @@ def read_image():
 def define_reader():
     reader = easyocr.Reader(['id'])
     bentoml.easyocr.save_model('id-reader', reader)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
