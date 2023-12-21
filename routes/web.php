@@ -17,6 +17,7 @@ if (env('APP_ENV') != 'local') {
     Route::redirect('/', '/student');
 } else {
     Route::get('/', function () {
+        return redirect()->route('student.show');
         return view('welcome');
     })->name('welcome');
 

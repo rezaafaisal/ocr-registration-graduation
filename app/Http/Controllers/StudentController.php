@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Mail\StudentCreated;
+use App\Models\Quota;
+use App\Models\Registrar;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +29,16 @@ class StudentController extends Controller
         $this->authorize('create', Student::class);
         $data = $request->validated();
         $student = Student::create($data);
+
+        // create Regitrar
+
+        $quota = Quota::where('status', 'open')->first();
+        Registrar::create([
+            'quota_id' => $quota->id,
+            'student_id' => $student->id,
+            'name' => $data['name'],
+            'nim' => $data['nim']
+        ]);
 
         if ($request->input('send_mail')) {
             $host = env('MAIL_STUDENT_HOST');

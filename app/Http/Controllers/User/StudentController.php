@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\UpdateRegistrarRequest;
 use App\Notifications\CreatedOrUpdatedRegistrar;
 
+use function PHPUnit\Framework\isNull;
+
 class StudentController extends Controller
 {
 
@@ -74,50 +76,72 @@ class StudentController extends Controller
     public function file_store(UpdateRegistrarRequest $request)
     {
         $data = $request->validated();
-        // $user = auth()->user();
+        $user = auth()->user();
         $biodata = $this->get_or_create_registrar();
         $biodata->fill($data);
-        $biodata->saveQuietly();
+        
 
         // check if has ktp or yudis
         if($request->has('ktp') or $request->has('munaqasyah')){
             $extracted = [];
 
             if($request->has('ktp')){
-                $response = Http::timeout(60)->connectTimeout(60)->get($this->reader_endpoint, [
-                    'path' => $biodata->ktp,
-                    'type' => 'ktp'
-                ]);
-
-                $ktp_data = json_decode($response->body());
-                foreach ($ktp_data as $key => $row) {
-                    $extracted[$key] = $row;
+                try {
+                    $response = Http::timeout(60)->connectTimeout(60)->get($this->reader_endpoint, [
+                        'path' => $biodata->ktp,
+                        'type' => 'ktp'
+                    ]);
+    
+                    $ktp_data = json_decode($response->body());
+                    foreach ($ktp_data as $key => $row) {
+                        $extracted[$key] = $row;
+                    }
+    
+                    if(strtolower($user->name) != strtolower($extracted['name'])){
+                        return back()->withErrors([
+                            'ktp' => 'Nama tidak sama dengan nama KTP',
+                        ])->onlyInput('ktp');
+                    }
+    
+                    $biodata->name = $extracted['name'];
+                    $biodata->nik = $extracted['nik'];
+                    $biodata->dob = $extracted['birth_date'];
+                    $biodata->pob = $extracted['born_place'];
+                    $biodata->gender = $extracted['gender'];
+                } catch (\Throwable $th) {
+                    return $th;
                 }
-
-                $biodata->name = $extracted['name'];
-                $biodata->nik = $extracted['nik'];
-                $biodata->dob = $extracted['birth_date'];
-                $biodata->pob = $extracted['born_place'];
-                $biodata->gender = $extracted['gender'];
             }
 
-            if($request->has('munaqasyah') && ($biodata->name != null || $extracted['name'])){
-                $response = Http::timeout(60)->connectTimeout(60)->get($this->reader_endpoint, [
-                    'path' => $biodata->munaqasyah,
-                    'type' => 'yudis',
-                    'name' => $biodata->name ?? $extracted['name']
-                ]);
+            if($request->has('munaqasyah') && ($biodata->name != null)){
+                try {
+                    $response = Http::timeout(60)->connectTimeout(60)->get($this->reader_endpoint, [
+                        'path' => $biodata->munaqasyah,
+                        'type' => 'yudis',
+                        'name' => $biodata->name
+                    ]);
+    
+                    $yudis_data = json_decode($response->body());
 
-                $yudis_data = json_decode($response->body());
-                foreach ($yudis_data as $key => $row) {
-                    $extracted[$key] = $row;
+                    if($yudis_data == NULL){
+                        return back()->withErrors([
+                            'munaqasyah' => 'Nama tidak sama dengan nama berkas Munaqasyah!',
+                        ])->onlyInput('munaqasyah');
+                    }
+                    foreach ($yudis_data as $key => $row) {
+                        $extracted[$key] = $row;
+                    }
+
+                    $biodata->faculty = $extracted['faculty'];
+                    $biodata->dop = $extracted['graduate_date'];
+                    $biodata->ipk = $extracted['ipk'];
+                    $biodata->study_program = $extracted['major'];
+                } catch (\Throwable $th) {
+                    throw $th;
+                    return back()->withErrors([
+                            'munaqasyah' => 'Nama tidak sama dengan nama berkas Munaqasyah!',
+                        ])->onlyInput('munaqasyah');
                 }
-
-                $biodata->nim = $extracted['nim'];
-                $biodata->faculty = $extracted['faculty'];
-                $biodata->dop = $extracted['graduate_date'];
-                $biodata->ipk = $extracted['ipk'];
-                $biodata->study_program = $extracted['major'];
             }
         }
 

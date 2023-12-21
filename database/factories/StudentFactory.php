@@ -18,7 +18,7 @@ class StudentFactory extends Factory
     {
         return [
             // 'photo' => fake()->imageUrl(),
-            // 'name' => fake()->name(),
+            'name' => fake()->name(),
             'nim' => fake()->unique()->regexify('[0-9]{11}'),
             // 'email' => fake()->unique()->email(),
             'password' => 'student',

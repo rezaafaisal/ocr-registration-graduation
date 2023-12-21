@@ -23,7 +23,9 @@
         <aside id="drawer-main" class="bg-white dark:bg-gray-800 shadow transition-colors" tabindex="-1">
             <header
                 class="flex gap-4 items-center justify-center sticky top-0 bg-white dark:bg-gray-800 text-xl font-semibold h-[56px] shadow transition-colors">
-                <div><img src="{{ env('APP_LOGO') }}" alt="Bladerlaiga" class="w-8 h-8 object-contain rounded-md"></div>
+                {{-- <div>
+                    <img src="{{ env('APP_LOGO') }}" alt="Bladerlaiga" class="w-8 h-8 object-contain rounded-md">
+                </div> --}}
                 <div class="text-green-700 dark:text-green-500">Pendaftaran Wisuda</div>
                 <!--
                     <div class="text-green-700 dark:text-green-500">{{ env('APP_NAME') }}</div>
