@@ -45,6 +45,18 @@
         </div>
         <button
             class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
+            <div class="">
+                <ul>
+                    <li>
+                        <a class="font-bold text-sm hover:text-gray-700 duration-150 underline" href="{{ route('student.login.show') }}">Masuk sebagai Mahasiswa</a>
+
+                    </li>
+                    <li>
+                        <a class="font-bold text-sm hover:text-gray-700 duration-150 underline" href="{{ route('admin.login.show') }}">Masuk sebagai Administrator</a>
+
+                    </li>
+                </ul>
+            </div>
         @env('local')
         <div>
             @foreach ($errors->all() as $item)

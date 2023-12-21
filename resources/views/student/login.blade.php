@@ -127,6 +127,18 @@
                 class="text-black bg-white border-none shadow-md hover:bg-white focus:ring-4 focus:outline-none focus:ribg-white font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-white dark:hover:bg-white dark:focus:ribg-white">
                 Login
             </button>
+            <div class="">
+                <ul>
+                    <li>
+                        <a class="font-bold text-sm hover:text-gray-700 duration-150 underline" href="{{ route('operator.login.show') }}">Masuk sebagai Operator</a>
+
+                    </li>
+                    <li>
+                        <a class="font-bold text-sm hover:text-gray-700 duration-150 underline" href="{{ route('admin.login.show') }}">Masuk sebagai Administrator</a>
+
+                    </li>
+                </ul>
+            </div>
             @env('local')
             <div>
                 @foreach ($errors->all() as $item)

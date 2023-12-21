@@ -188,7 +188,7 @@ class Registrar extends Model
             if (isset($this->attributes['photo'])) {
                 Storage::delete($this->attributes['photo']);
             }
-            $this->attributes['photo'] = Storage::put("registrar/$this->nim", $value);
+            $this->attributes['photo'] = Storage::put("registrar", $value);
         }
     }
 
@@ -197,7 +197,7 @@ class Registrar extends Model
         if (Str::of($this->photo)->startsWith('http')) {
             return $this->photo;
         } else {
-            return Storage::url($this->photo);
+            return asset($this->photo);
         }
     }
 
@@ -209,7 +209,7 @@ class Registrar extends Model
             if (isset($this->attributes['munaqasyah'])) {
                 Storage::delete($this->attributes['munaqasyah']);
             }
-            $this->attributes['munaqasyah'] = Storage::put("registrar/$this->nim", $value);
+            $this->attributes['munaqasyah'] = Storage::put("registrar", $value);
         }
     }
 
@@ -218,7 +218,7 @@ class Registrar extends Model
         if (Str::of($this->munaqasyah)->startsWith('http')) {
             return $this->munaqasyah;
         } else {
-            return Storage::url($this->munaqasyah);
+            return asset($this->munaqasyah);
         }
     }
 
@@ -230,7 +230,7 @@ class Registrar extends Model
             if (isset($this->attributes['school_certificate'])) {
                 Storage::delete($this->attributes['school_certificate']);
             }
-            $this->attributes['school_certificate'] = Storage::put("registrar/$this->nim", $value);
+            $this->attributes['school_certificate'] = Storage::put("registrar", $value);
         }
     }
 
@@ -239,7 +239,7 @@ class Registrar extends Model
         if (Str::of($this->school_certificate)->startsWith('http')) {
             return $this->school_certificate;
         } else {
-            return Storage::url($this->school_certificate);
+            return asset($this->school_certificate);
         }
     }
 
@@ -272,7 +272,7 @@ class Registrar extends Model
             if (isset($this->attributes['ktp'])) {
                 Storage::delete($this->attributes['ktp']);
             }
-            $this->attributes['ktp'] = Storage::put("registrar/$this->nim", $value);
+            $this->attributes['ktp'] = Storage::put("registrar", $value);
         }
     }
 
@@ -281,7 +281,7 @@ class Registrar extends Model
         if (Str::of($this->ktp)->startsWith('http')) {
             return $this->ktp;
         } else {
-            return Storage::url($this->ktp);
+            return asset($this->ktp);
         }
     }
 
@@ -293,7 +293,7 @@ class Registrar extends Model
             if (isset($this->attributes['spukt'])) {
                 Storage::delete($this->attributes['spukt']);
             }
-            $this->attributes['spukt'] = Storage::put("registrar/$this->nim", $value);
+            $this->attributes['spukt'] = Storage::put("registrar", $value);
         }
     }
 
@@ -302,7 +302,7 @@ class Registrar extends Model
         if (Str::of($this->spukt)->startsWith('http')) {
             return $this->spukt;
         } else {
-            return Storage::url($this->spukt);
+            return asset($this->spukt);
         }
     }
 
