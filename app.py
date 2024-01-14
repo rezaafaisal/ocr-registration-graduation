@@ -28,12 +28,23 @@ def get_texts(image, paragraph = False):
     loaded_reader = bentoml.easyocr.load_model('id-reader')
     return loaded_reader.readtext(image, detail=0, paragraph=paragraph)
 
+
+# fungsi mengekstrak data nama dari ktp hasil ocr
+def contains_number(string):
+    return any(char.isdigit() for char in string)
+
+def get_name(ktp_lists):
+  new_list = [x for x in ktp_lists if (x.isupper() and not contains_number(x) and True)]
+  index_name = [index for index, x in enumerate(new_list) if (x.isupper() and (x.lower() == 'laki-laki' or x.lower() == 'perempuan'))][0] - 1
+  return [x for x in ktp_lists if (x.isupper() and not contains_number(x) and True)][index_name].title()
+
+
 # extract information needed in ktp
 def get_ktp_info(ktp_lists):
     data = {}
     # get nik
     data['nik'] = [x for x in ktp_lists if x.isdigit()][0]
-    data['name'] = [x for x in ktp_lists if x.isupper()][3].title()
+    data['name'] = get_name(ktp_lists)
 
     temp_born = [x for x in ktp_lists if any(c.isdigit() for c in x)][1]
     born_place = re.sub('[^a-zA-Z]+', '', temp_born).title()
