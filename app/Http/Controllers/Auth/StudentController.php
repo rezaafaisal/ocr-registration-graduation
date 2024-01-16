@@ -19,6 +19,7 @@ class StudentController extends Controller
             [
                 'quota_name' => $quota->name ?? "",
                 'quota' => Quota::stats(),
+                'quota_date' => Quota::durationDate()
 
             ]
         );

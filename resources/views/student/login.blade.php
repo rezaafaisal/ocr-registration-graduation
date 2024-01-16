@@ -16,13 +16,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col sm:flex-row min-h-screen text-black bg-gray-100 dark:text-white dark:bg-gray-900">
+<body class="flex flex-col sm:flex-row min-h-screen text-blackbg-gray-100 dark:text-white dark:bg-gray-900">
     <section class="bg-white flex flex-col flex-[0_0_60%] gap-4 p-2 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12">
         <div class="flex gap-2 items-center">
             <img src="{{ asset('logo.png') }}" alt="UIN Alauddin" class="h-24">
             <h1 class="flex flex-col gap-2">
                 <span class="font-semibold text-2xl">
-                    Registrasi Wisudawa {{ $quota_name }}
+                    Registrasi Wisudawan {{ $quota_name }}
                 </span>
                 <span class="font-semibold text-2xl">
                     Universitas Islam Negeri Makassar
@@ -33,7 +33,8 @@
             <p class="px-8 text-sm leading-8">
                 Selamat Datang Di Registrasi Wisudawan Program D3, S1, S2, & S3
                 UIN Alauddin Makassar, Halaman Registrasi ini hanya
-                diperuntukanbagi mahasiswa yang di telah melaksanakan “Yudisium”
+                diperuntukan bagi mahasiswa yang di telah melaksanakan “Yudisium” 
+                pendaftaran ini dibuka dari <span class="font-bold">{{ $quota_date->start_date }}</span> sampai <span class="font-bold">{{ $quota_date->end_date }}</span>.
             </p>
         </div>
         @if ($quota)

@@ -37,6 +37,19 @@ class Quota extends Model
         return $result;
     }
 
+    public static function durationDate(){
+        $quota = self::first_open();
+
+        if(!$quota){
+            return null;
+        }
+
+        return (object)[
+            'start_date' => Carbon::parse($quota->start_date)->format('d M Y'),
+            'end_date' => Carbon::parse($quota->end_date)->format('d M Y')
+        ];
+    }
+
     /** @return Quota|null */
     public static function first_open()
     {

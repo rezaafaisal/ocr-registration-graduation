@@ -49,8 +49,8 @@
                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
             @enderror
         </div>
-        <div date-rangepicker id="period" class="flex gap-2 items-center">
-            <div class="flex-grow">
+        <div date-rangepicker id="period" class="grid items-start grid-cols-2 gap-2">
+            <div class="">
                 <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize">
                     {{ __('start date') }}
                 </label>
@@ -72,7 +72,7 @@
                 @enderror
             </div>
             {{-- <div class="mx-4 text-gray-500">{{ __('to') }}</div> --}}
-            <div class="flex-grow">
+            <div class="">
                 <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize">
                     {{ __('end date') }}
                 </label>
@@ -90,7 +90,7 @@
                         placeholder="{{ __('select date end') }}" required autocomplete="off">
                 </div>
                 @error('end_date')
-                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500 break-words">{{ $message }}</p>
                 @enderror
             </div>
         </div>

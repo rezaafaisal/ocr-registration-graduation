@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateQuotaRequest;
 use App\Models\ArchiveQuota;
 use App\Models\ArchiveRegistrar;
 use App\Models\Quota;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class QuotaController extends Controller
@@ -29,6 +30,7 @@ class QuotaController extends Controller
     {
         $this->authorize('create', Quota::class);
         $data = $request->validated();
+
         $quota = Quota::create($data);
 
         return redirect()->intended($request->string('_index'));
@@ -74,6 +76,17 @@ class QuotaController extends Controller
     {
         $this->authorize('update', $quota);
         $data = $request->validated();
+
+        $start_date = Carbon::parse($data['start_date']);
+        $end_date = Carbon::parse($data['end_date']);
+
+
+
+        if ($start_date->gt($end_date)){
+            return back()->withErrors([
+                'end_date' => 'tanggal berakhir tidak boleh mendahului tanggal buka'
+                ])->onlyInput('end_date');
+        }
         $quota->update($data);
 
         return redirect()->intended($request->string('_index'));
